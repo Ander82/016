@@ -5,7 +5,7 @@ const fs = require('fs');
 
 app.get('/api/dados/:numero', (req, res) => {
   const numero = req.params.numero; // Obtém o número da URL
-  const arquivo = `${numero}_dados.json`; // Gera o nome do arquivo baseado no número
+  const arquivo = `${numero}dados.json`; // Gera o nome do arquivo baseado no número
 
   // Lê o arquivo JSON correspondente
   fs.readFile(arquivo, 'utf8', (err, data) => {
