@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080; // Porta que a API vai escutar
 const fs = require('fs');
+const path = require('path'); // Módulo path para manipulação de caminhos
 
 app.get('/api/dados/:numero', (req, res) => {
   const numero = req.params.numero; // Obtém o número da URL
-  const arquivo = `/Users/andersonbandeira/Documents/projetos/api/016/src/${numero}.json`; // Caminho do arquivo
+  const arquivo = path.join(__dirname, `src/${numero}.json`); // Caminho do arquivo
 
   // Verifique se o arquivo existe antes de tentar lê-lo
   fs.access(arquivo, fs.constants.F_OK, (err) => {
@@ -32,8 +33,7 @@ app.get('/api/dados/:numero', (req, res) => {
   });
 });
 
-
 // Inicie o servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Servidor rodando na porta ${port}`);
 });
