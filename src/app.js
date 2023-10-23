@@ -6,8 +6,8 @@ const path = require('path'); // Módulo path para manipulação de caminhos
 
 app.get('/api/dados/:numero', (req, res) => {
   const numero = req.params.numero; // Obtém o número da URL
-  const arquivo = path.join(__dirname, `src/${numero}.json`); // Caminho do arquivo
-
+  const arquivo = path.join(__dirname, `${numero}.json`); // Caminho do arquivo
+  console.log(`Tentando ler o arquivo: ${arquivo}`);
   // Verifique se o arquivo existe antes de tentar lê-lo
   fs.access(arquivo, fs.constants.F_OK, (err) => {
     if (err) {
