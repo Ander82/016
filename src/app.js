@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8080; // Porta que a API vai escutar
+const port = process.env.PORT || 8080; // Porta que a API vai escutar
 const fs = require('fs');
 
 app.get('/api/dados/:numero', (req, res) => {
