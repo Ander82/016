@@ -5,24 +5,33 @@ const fs = require('fs');
 
 app.get('/api/dados/:numero', (req, res) => {
   const numero = req.params.numero; // Obtém o número da URL
-  const arquivo = `${numero}dados.json`; // Gera o nome do arquivo baseado no número
+  const arquivo = `/Users/andersonbandeira/Documents/projetos/api/016/src/${numero}.json`; // Caminho do arquivo
 
-  // Lê o arquivo JSON correspondente
-  fs.readFile(arquivo, 'utf8', (err, data) => {
-    if (!err) {
-      try {
-        const dados = JSON.parse(data);
-        res.json(dados); // Retorna os dados JSON
-      } catch (e) {
-        console.error('Erro ao analisar os dados JSON:', e);
-        res.status(500).send('Erro ao analisar os dados JSON.');
-      }
+  // Verifique se o arquivo existe antes de tentar lê-lo
+  fs.access(arquivo, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error(`O arquivo ${arquivo} não foi encontrado.`);
+      res.status(404).send('Arquivo não encontrado.');
     } else {
-      console.error('Erro ao ler o arquivo JSON:', err);
-      res.status(500).send('Erro ao ler o arquivo JSON.');
+      // O arquivo existe, leia e retorne os dados
+      fs.readFile(arquivo, 'utf8', (err, data) => {
+        if (!err) {
+          try {
+            const dados = JSON.parse(data);
+            res.json(dados); // Retorna os dados JSON
+          } catch (e) {
+            console.error('Erro ao analisar os dados JSON:', e);
+            res.status(500).send('Erro ao analisar os dados JSON.');
+          }
+        } else {
+          console.error('Erro ao ler o arquivo JSON:', err);
+          res.status(500).send('Erro ao ler o arquivo JSON.');
+        }
+      });
     }
   });
 });
+
 
 // Inicie o servidor
 app.listen(port, () => {
